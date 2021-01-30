@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timer.cancel();
-                startActivity(MainActivity.this,AddMngActivity.class);
+                startActivity(MainActivity.this,LoginActivity.class);
                 finish();
             }
         },3000);
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
         System.exit(0);
     }
+
 
     public void startActivity(Context context, Class activity) {
         Intent myIntent = new Intent(context, activity);
