@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AddUserActivity extends AppCompatActivity {
+public class ActivityAddUser extends AppCompatActivity {
 
     LinearLayout panClose;
     TextView lbOnvan;
@@ -36,7 +36,7 @@ public class AddUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mng_add);
+        setContentView(R.layout.activity_user_add);
 
         panClose = findViewById(R.id.pan_close);
         lbOnvan = findViewById(R.id.lb_Onvan);
@@ -72,7 +72,7 @@ public class AddUserActivity extends AppCompatActivity {
 
 
     private void showStatusDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddUserActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAddUser.this);
 
         TextView title = new TextView(this);
         title.setText("آخرین وضعیت");
