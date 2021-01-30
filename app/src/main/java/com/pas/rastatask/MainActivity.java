@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 timer.cancel();
                 startActivity(MainActivity.this,
-                        AddUserActivity.class);
+                        ActivityAddUser.class);
                 finish();
             }
         },3000);
