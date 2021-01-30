@@ -2,27 +2,19 @@ package com.pas.rastatask;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class AddMngActivity extends AppCompatActivity {
@@ -38,7 +30,11 @@ public class AddMngActivity extends AppCompatActivity {
 
     NestedScrollView scrollView;
 
+    int position_user = 0;
+    int sel_uuser = 0;
 
+    int position_status = 0;
+    int sel_sstatus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +87,14 @@ public class AddMngActivity extends AppCompatActivity {
 
         final CharSequence[] charSequence = new CharSequence[] {"کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک","کاربر دو","کاربر یک"};
 
-        builder.setSingleChoiceItems(charSequence, 0, (dialog, which) -> {
-
-        });
+        builder.setSingleChoiceItems(charSequence, position_user, (dialog, which) -> sel_uuser  = which);
 
         String positiveText = "اوکی";
         builder.setPositiveButton(positiveText,
                 (dialog, which) -> {
-
+                    position_user = sel_uuser;
+                    String s = String.valueOf(charSequence[position_user]);
+                    lbAddUser.setText(s);
                 });
         String negativeText = "بازگشت";
         builder.setNegativeButton(negativeText,
@@ -137,16 +133,16 @@ public class AddMngActivity extends AppCompatActivity {
 
         builder.setCustomTitle(title);
 
-        final CharSequence[] charSequence = new CharSequence[] {"عادی","مهم","ضروری","فوق ضروری"};
+        final CharSequence[] charSequence = new CharSequence[] {"عادی","مهم","ضروری"};
 
-        builder.setSingleChoiceItems(charSequence, 0, (dialog, which) -> {
-
-        });
+        builder.setSingleChoiceItems(charSequence, position_status, (dialog, which) -> sel_sstatus = which);
 
         String positiveText = "اوکی";
         builder.setPositiveButton(positiveText,
                 (dialog, which) -> {
-
+                    position_status = sel_sstatus;
+                    String s = String.valueOf(charSequence[position_status]);
+                    lbSelVaz.setText(s);
                 });
         String negativeText = "بازگشت";
         builder.setNegativeButton(negativeText,

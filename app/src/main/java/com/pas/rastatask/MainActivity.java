@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timer.cancel();
-                startActivity(MainActivity.this,AddMngActivity.class);
+                startActivity(MainActivity.this,
+                        AddUserActivity.class);
                 finish();
             }
         },3000);

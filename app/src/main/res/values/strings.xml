@@ -13,5 +13,7 @@
     <string name="mng_sel_vaz">اولویت</string>
     <string name="mng_onvan_task">عنوان تسک</string>
     <string name="mng_tozih">توضیحات</string>
+    <string name="onvan_user_add">توضیحات کار</string>
+    <string name="user_sel_vaz">وضعیت</string>
 
 </resources>
