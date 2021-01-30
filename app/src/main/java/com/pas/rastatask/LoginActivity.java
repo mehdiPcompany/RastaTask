@@ -1,5 +1,7 @@
 package com.pas.rastatask;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -76,13 +78,19 @@ public class LoginActivity extends AppCompatActivity {
             }else if(strPass.equals("")){
                 Toast.makeText(LoginActivity.this,"لطفا رمزعبور را وارد نمائید",Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(LoginActivity.this,"لطفا کمی صبر نمائید",Toast.LENGTH_SHORT).show();
+                startActivity(LoginActivity.this,ListActivity.class);
+                finish();
             }
 
         });
 
         lbCheck.setOnClickListener(v -> checkBox.setChecked(!checkBox.isChecked()));
 
+    }
+
+    public void startActivity(Context context, Class activity) {
+        Intent myIntent = new Intent(context, activity);
+        context.startActivity(myIntent);
     }
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {

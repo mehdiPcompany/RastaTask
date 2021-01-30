@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
+<<<<<<< HEAD
         <activity android:name=".ActivityAddUser"></activity>
+=======
+        <activity android:name=".ListActivity"></activity>
+>>>>>>> far
         <activity android:name=".AddMngActivity" />
         <activity
             android:name=".LoginActivity"
