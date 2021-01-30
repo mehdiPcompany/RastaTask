@@ -1,0 +1,17 @@
+<resources>
+    <string name="version_name">1.0.0</string>
+    <string name="app_name">رستاتسک</string>
+    <string name="Edmobile">شماره موبایل</string>
+    <string name="Edpass">رمز عبور</string>
+    <string name="Btvorood">ورود</string>
+
+    <string name="check_login">ورود به عنوان مدیر</string>
+    <string name="todo">TODO</string>
+    <string name="onvan_mng_add">کار جدید</string>
+    <string name="next_add_mng">اضافه کردن</string>
+    <string name="mng_add_user">انتخاب کاربر</string>
+    <string name="mng_sel_vaz">اولویت</string>
+    <string name="mng_onvan_task">عنوان تسک</string>
+    <string name="mng_tozih">توضیحات</string>
+
+</resources>
