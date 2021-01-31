@@ -7,7 +7,7 @@
         <item
             android:id="@+id/item1"
             android:icon="@drawable/ic_favorite_24dp"
-            android:title="محمد پسمدیده"
+            android:title="محمد پسندیده"
             />
         <item
             android:id="@+id/item2"

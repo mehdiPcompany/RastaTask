@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListActivity"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/p_asli_close"
+        android:id="@+id/p_asli_menu"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="?colorPrimary"
@@ -19,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:id="@+id/pan_close"
+            android:id="@+id/pan_menu"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="?selectableItemBackgroundBorderless"
@@ -29,12 +28,13 @@
             tools:ignore="MissingConstraints">
 
             <ImageView
-                android:id="@+id/btn_close"
+                android:id="@+id/btn_menu"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_margin="14dp"
                 android:background="@drawable/ic_menu"
-                tools:ignore="MissingConstraints,RtlHardcoded" />
+                tools:ignore="MissingConstraints,RtlHardcoded"
+                android:contentDescription="@string/todo" />
 
         </LinearLayout>
 
@@ -46,42 +46,72 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/pan_close"
+            app:layout_constraintRight_toLeftOf="@+id/pan_menu"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_marginTop="56dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:barrierMargin="10dp"
-        tools:openDrawer="right">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="?colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        app:fabSize="normal"
+        tools:ignore="MissingConstraints"
+        android:contentDescription="@string/todo" />
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drawerLayout"
+            android:layout_marginTop="56dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            app:barrierMargin="10dp"
+            tools:openDrawer="right">
 
-            <com.google.android.material.appbar.AppBarLayout
-                style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_marginTop="-56dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:paddingTop="70dp"
+                android:paddingBottom="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <com.google.android.material.navigation.NavigationView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:layout_gravity="right"
-            android:textDirection="rtl"
-            android:layoutDirection="rtl"
-            app:headerLayout="@menu/nav_header_main"
-            app:menu="@menu/navigation_drawer" />
-    </androidx.drawerlayout.widget.DrawerLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <com.google.android.material.navigation.NavigationView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/nav_view"
+                android:background="#ffffff"
+                android:layout_gravity="right"
+                android:textDirection="rtl"
+                android:layoutDirection="rtl"
+                app:headerLayout="@menu/nav_header_main"
+                app:menu="@menu/navigation_drawer" />
+        </androidx.drawerlayout.widget.DrawerLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

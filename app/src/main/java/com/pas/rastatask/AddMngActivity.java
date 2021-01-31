@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -67,7 +69,9 @@ public class AddMngActivity extends AppCompatActivity {
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
 
         panClose.setOnClickListener(v -> {
-
+            Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
+            AddMngActivity.this.startActivity(myIntent);
+            finish();
         });
 
     }
@@ -167,4 +171,12 @@ public class AddMngActivity extends AppCompatActivity {
         negativeButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
+        AddMngActivity.this.startActivity(myIntent);
+        finish();
+    }
+
 }

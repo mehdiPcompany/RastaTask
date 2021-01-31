@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -15,7 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ActivityAddUser extends AppCompatActivity {
+public class AddUserActivity extends AppCompatActivity {
 
     LinearLayout panClose;
     TextView lbOnvan;
@@ -65,14 +66,16 @@ public class ActivityAddUser extends AppCompatActivity {
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
 
         panClose.setOnClickListener(v -> {
-
+            Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
+            AddUserActivity.this.startActivity(myIntent);
+            finish();
         });
 
     }
 
 
     private void showStatusDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAddUser.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddUserActivity.this);
 
         TextView title = new TextView(this);
         title.setText("آخرین وضعیت");
@@ -118,5 +121,12 @@ public class ActivityAddUser extends AppCompatActivity {
         negativeButton.setTextColor(Color.RED);
         negativeButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
+        AddUserActivity.this.startActivity(myIntent);
+        finish();
     }
 }
