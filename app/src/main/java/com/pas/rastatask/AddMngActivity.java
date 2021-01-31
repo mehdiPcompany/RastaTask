@@ -56,8 +56,8 @@ public class AddMngActivity extends AppCompatActivity {
 
         scrollView = findViewById(R.id.scroll_add_mng);
 
-        lbOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
-        lbNext.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        lbOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        lbNext.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
         lbAddUser.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
         lbSelVaz.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
@@ -69,9 +69,9 @@ public class AddMngActivity extends AppCompatActivity {
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
 
         panClose.setOnClickListener(v -> {
+            finish();
             Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
             AddMngActivity.this.startActivity(myIntent);
-            finish();
         });
 
     }
@@ -174,9 +174,9 @@ public class AddMngActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
         Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
         AddMngActivity.this.startActivity(myIntent);
-        finish();
     }
 
 }

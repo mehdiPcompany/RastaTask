@@ -1,4 +1,4 @@
-090package com.pas.rastatask;
+package com.pas.rastatask;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +30,7 @@ import com.pas.rastatask.retrofitdata.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @SuppressLint("RtlHardcoded")
 public class ListActivity extends AppCompatActivity {
@@ -43,9 +44,10 @@ public class ListActivity extends AppCompatActivity {
 
 //    add view
 
-    ArrayList<String> personNames = new ArrayList<>();
-    ArrayList<String> emailIds = new ArrayList<>();
-    ArrayList<String> mobileNumbers = new ArrayList<>();
+    ArrayList<String> statusAsliTask = new ArrayList<>();
+    ArrayList<String> onvanAsliTask = new ArrayList<>();
+    ArrayList<String> contentAsliTask = new ArrayList<>();
+    ArrayList<Integer> statusTask = new ArrayList<>();
 
     private static Retrofit retrofit;
 
@@ -68,23 +70,20 @@ public class ListActivity extends AppCompatActivity {
         floatingActionButton = findViewById((R.id.fab));
 
         floatingActionButton.setOnClickListener(v -> {
-            if (drawerLayout1.isDrawerOpen(Gravity.RIGHT)) {
-                drawerLayout1.closeDrawer(Gravity.RIGHT);
-            } else {
-                drawerLayout1.openDrawer(Gravity.RIGHT);
-            }
+            finish();
+            startActivity(AddMngActivity.class);
         });
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()){
                 case R.id.item1:
-                    startActivity(AddUserActivity.class);
+                    Log.d("TAG", "item1");
                     break;
                 case R.id.item2:
-                    startActivity(AddMngActivity.class);
+                    Log.d("TAG", "item12");
                     break;
                 case R.id.item3:
                     Log.d("TAG", "item13");
@@ -109,8 +108,23 @@ public class ListActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        customAdapter = new CustomAdapter(ListActivity.this, personNames, emailIds, mobileNumbers);
+        customAdapter = new CustomAdapter(ListActivity.this, statusAsliTask, onvanAsliTask, contentAsliTask,statusTask);
         recyclerView.setAdapter(customAdapter);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+//                        Toast.makeText(ListActivity.this, mobileNumbers.get(position), Toast.LENGTH_SHORT).show();
+                        Context context = ListActivity.this;
+                        Intent myIntent = new Intent(context,AddUserActivity.class);
+                        context.startActivity(myIntent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -131,9 +145,10 @@ public class ListActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setRefreshing(true);
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            personNames.clear();
-            emailIds.clear();
-            mobileNumbers.clear();
+            statusAsliTask.clear();
+            onvanAsliTask.clear();
+            contentAsliTask.clear();
+            statusTask.clear();
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
             pages = 1;
             luddite();
@@ -183,9 +198,24 @@ public class ListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     responses = response.body();
                     for (int i = 0; i < Objects.requireNonNull(responses).size(); i++) {
-                        personNames.add(responses.get(i).getName());
-                        emailIds.add(responses.get(i).getEmail());
-                        mobileNumbers.add(responses.get(i).getBody());
+
+                        int Rnd1 = Rnd(0,3);
+                        String sstatus  ;
+                        int col_status = 0;
+
+                        onvanAsliTask.add("جهت تست این پروژه سریعا اقدام نمائید");
+                        contentAsliTask.add("این پروژه چندین خط دارد و ممکن است برای همه باغث زیان و ضرر شود با این من این پروپزه رو قبول میکنم و ممئن باشید به نجوه احسنت آمرا به گایان خواهم رساند. جلوتر خواهیم دید.");
+                        if(Rnd1==0){
+                            col_status = R.drawable.recycler_item_corner_radius_red;
+                        }else if(Rnd1==1){
+                            col_status = R.drawable.recycler_item_corner_radius_orange;
+                        }else if(Rnd1==2){
+                            col_status = R.drawable.recycler_item_corner_radius_green;
+                        }
+                        sstatus = "درحال بررسی";
+                        statusTask.add(col_status);
+                        statusAsliTask.add("وضعیت: "+sstatus);
+
                     }
 
                     customAdapter.notifyDataSetChanged();
@@ -202,11 +232,16 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<List<Response>> call, @NonNull Throwable t) {
                 Log.d("TAG", Objects.requireNonNull(t.getMessage()));
+                mSwipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(ListActivity.this,"خطا در برقراری ارتباط",Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
+    public static int Rnd(int Min, int Max){
+        return Min + new Random().nextInt(Max - Min);
+    }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 

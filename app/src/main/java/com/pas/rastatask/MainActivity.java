@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timer.cancel();
-                startActivity(MainActivity.this,LoginActivity.class);
                 finish();
+                startActivity(MainActivity.this,LoginActivity.class);
             }
         },3000);
     }

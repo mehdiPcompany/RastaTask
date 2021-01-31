@@ -1,37 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_margin="5dp"
+    app:cardCornerRadius="7dp"
     android:layout_height="wrap_content">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_card"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:gravity="right"
+        android:textDirection="rtl"
+        app:layout_constraintRight_toLeftOf="@+id/lab_status"
+        tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/txt_status_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#3F51B5"
+            android:textColor="#000"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/txt_onvan_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#E91E63"
-            android:textSize="15sp" />
+            android:textColor="#6E6E6E"
+            android:textSize="17sp" />
 
         <TextView
-            android:id="@+id/mobileNo"
+            android:id="@+id/txt_content_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF9800"
+            android:textColor="#A9A9A9"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textSize="15sp" />
+
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:id="@+id/lab_status"
+            android:background="@drawable/recycler_item_corner_radius_green"
+            tools:ignore="MissingConstraints" />
+
 
     </LinearLayout>
 

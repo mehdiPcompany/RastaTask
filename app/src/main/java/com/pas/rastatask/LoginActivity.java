@@ -62,9 +62,9 @@ public class LoginActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.check_l);
 
         btLogin.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        edMobile.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
-        edPass.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
-        lbCheck.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        edMobile.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        edPass.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        lbCheck.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
         btLogin.setOnClickListener(v -> {
             Log.d("TAG", "onCreate: ");
@@ -78,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
             }else if(strPass.equals("")){
                 Toast.makeText(LoginActivity.this,"لطفا رمزعبور را وارد نمائید",Toast.LENGTH_SHORT).show();
             }else{
-                startActivity(LoginActivity.this,ListActivity.class);
                 finish();
+                startActivity(LoginActivity.this,ListActivity.class);
             }
 
         });

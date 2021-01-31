@@ -53,8 +53,8 @@ public class AddUserActivity extends AppCompatActivity {
 
         scrollView = findViewById(R.id.scroll_add_mng);
 
-        lbOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
-        lbNext.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        lbOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        lbNext.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
         lbSelVaz.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
 
@@ -66,9 +66,9 @@ public class AddUserActivity extends AppCompatActivity {
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
 
         panClose.setOnClickListener(v -> {
+            finish();
             Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
             AddUserActivity.this.startActivity(myIntent);
-            finish();
         });
 
     }
@@ -125,8 +125,8 @@ public class AddUserActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
         Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
         AddUserActivity.this.startActivity(myIntent);
-        finish();
     }
 }
