@@ -69,16 +69,19 @@ public class ListActivity extends AppCompatActivity {
         drawerLayout1 = findViewById((R.id.drawerLayout));
         floatingActionButton = findViewById((R.id.fab));
 
-        floatingActionButton.setOnClickListener(v -> {
-            finish();
-            startActivity(AddMngActivity.class);
-        });
-
+        if (Library.readAHSharedPreferences(this, "TypeLogin").equals("false")) {
+            floatingActionButton.setVisibility(View.GONE);
+        } else {
+            floatingActionButton.setOnClickListener(v -> {
+                finish();
+                startActivity(AddMngActivity.class);
+            });
+        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
 
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.item1:
                     Log.d("TAG", "item1");
                     break;
@@ -108,18 +111,20 @@ public class ListActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        customAdapter = new CustomAdapter(ListActivity.this, statusAsliTask, onvanAsliTask, contentAsliTask,statusTask);
+        customAdapter = new CustomAdapter(ListActivity.this, statusAsliTask, onvanAsliTask, contentAsliTask, statusTask);
         recyclerView.setAdapter(customAdapter);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         Context context = ListActivity.this;
-                        Intent myIntent = new Intent(context,AddUserActivity.class);
+                        Intent myIntent = new Intent(context, AddUserActivity.class);
                         context.startActivity(myIntent);
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
                         // do whatever
                     }
                 })
@@ -154,7 +159,6 @@ public class ListActivity extends AppCompatActivity {
         });
 
 
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -169,13 +173,14 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-                    floatingActionButton.hide();
-                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-                    floatingActionButton.show();
+                if (Library.readAHSharedPreferences(ListActivity.this, "TypeLogin").equals("true")) {
+                    if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                        floatingActionButton.hide();
+                    } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+                        floatingActionButton.show();
+                    }
                 }
             }
-
         });
 
 //        end view
@@ -198,22 +203,22 @@ public class ListActivity extends AppCompatActivity {
                     responses = response.body();
                     for (int i = 0; i < Objects.requireNonNull(responses).size(); i++) {
 
-                        int Rnd1 =Library.Rnd(0,3);
-                        String sstatus  ;
+                        int Rnd1 = Library.Rnd(0, 3);
+                        String sstatus;
                         int col_status = 0;
 
                         onvanAsliTask.add("جهت تست این پروژه سریعا اقدام نمائید");
                         contentAsliTask.add("این پروژه چندین خط دارد و ممکن است برای همه باغث زیان و ضرر شود با این من این پروپزه رو قبول میکنم و ممئن باشید به نجوه احسنت آمرا به گایان خواهم رساند. جلوتر خواهیم دید.");
-                        if(Rnd1==0){
+                        if (Rnd1 == 0) {
                             col_status = R.drawable.recycler_item_corner_radius_red;
-                        }else if(Rnd1==1){
+                        } else if (Rnd1 == 1) {
                             col_status = R.drawable.recycler_item_corner_radius_orange;
-                        }else if(Rnd1==2){
+                        } else if (Rnd1 == 2) {
                             col_status = R.drawable.recycler_item_corner_radius_green;
                         }
                         sstatus = "درحال بررسی";
                         statusTask.add(col_status);
-                        statusAsliTask.add("وضعیت: "+sstatus);
+                        statusAsliTask.add("وضعیت: " + sstatus);
 
                     }
 
@@ -232,7 +237,7 @@ public class ListActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<List<Response>> call, @NonNull Throwable t) {
                 Log.d("TAG", Objects.requireNonNull(t.getMessage()));
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(ListActivity.this,"خطا در برقراری ارتباط",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -263,7 +268,7 @@ public class ListActivity extends AppCompatActivity {
             }
             return true;
 
-        }else{
+        } else {
             return super.onKeyUp(keyCode, event);
         }
     }

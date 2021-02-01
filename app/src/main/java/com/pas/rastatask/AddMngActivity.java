@@ -4,10 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -37,6 +35,8 @@ public class AddMngActivity extends AppCompatActivity {
 
     int position_status = 0;
     int sel_sstatus = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,8 @@ public class AddMngActivity extends AppCompatActivity {
             Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
             AddMngActivity.this.startActivity(myIntent);
         });
+
+
 
     }
 

@@ -12,6 +12,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 
+import com.pas.rastatask.myclass.KeyValueStore;
+import com.pas.rastatask.myclass.sql;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -21,16 +24,34 @@ import androidx.annotation.NonNull;
 public interface Library {
 
 
-    static Typeface changeFont(@NonNull Context ctx,Boolean bold){
+    static Typeface changeFont(@NonNull Context ctx, Boolean bold) {
         String path;
 
-        if(bold){
+        if (bold) {
             path = "fonts/Shabnam-Bold.ttf";
-        }else{
+        } else {
             path = "fonts/Shabnam.ttf";
         }
 
-        return  Typeface.createFromAsset(ctx.getAssets(),path);
+        return Typeface.createFromAsset(ctx.getAssets(), path);
+    }
+
+    static void saveAHSharedPreferences(@NonNull Context ctx, String Key, Object Value) {
+        sql sql1 = new sql();
+        KeyValueStore keyValueStore = new KeyValueStore(sql1);
+        keyValueStore.Initialize(ctx.getApplicationContext().getFilesDir().toString(), "AllValue.db");
+        keyValueStore.Put(Key, Value);
+    }
+
+    static Object readAHSharedPreferences(@NonNull Context ctx, String Key) {
+        sql sql1 = new sql();
+        KeyValueStore keyValueStore = new KeyValueStore(sql1);
+        keyValueStore.Initialize(ctx.getApplicationContext().getFilesDir().toString(), "AllValue.db");
+        if(keyValueStore.ContainsKey(Key)){
+            return keyValueStore.Get(Key);
+        }else {
+            return 0;
+        }
     }
 
     static String convertNum(String str, boolean Persion) {
@@ -57,7 +78,7 @@ public interface Library {
         return str;
     }
 
-    static int Rnd(int Min, int Max){
+    static int Rnd(int Min, int Max) {
         return Min + new Random().nextInt(Max - Min);
     }
 

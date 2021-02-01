@@ -3,7 +3,6 @@ package com.pas.rastatask;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         image_back = findViewById(R.id.image_back);
-        Bitmap bm = Library.getBitmapFromAsset(this,"back.jpg");
-        image_back.setImageBitmap(Library.getRoundedCornerBitmap(bm,40));
+        Bitmap bm = Library.getBitmapFromAsset(this, "back.jpg");
+        image_back.setImageBitmap(Library.getRoundedCornerBitmap(bm, 40));
 
         image_logo = findViewById(R.id.image_logo);
-        Bitmap bmimage_logo = Library.getBitmapFromAsset(this,"icon.png");
+        Bitmap bmimage_logo = Library.getBitmapFromAsset(this, "icon.png");
         image_logo.setImageBitmap(bmimage_logo);
 
         btLogin = findViewById(R.id.Btlogin);
@@ -50,27 +49,27 @@ public class LoginActivity extends AppCompatActivity {
         lbCheck = findViewById(R.id.text_check_login);
         checkBox = findViewById(R.id.check_l);
 
-        btLogin.setTypeface(Library.changeFont(this,false));
-        edMobile.setTypeface(Library.changeFont(this,false));
-        edPass.setTypeface(Library.changeFont(this,false));
-        lbCheck.setTypeface(Library.changeFont(this,false));
+        btLogin.setTypeface(Library.changeFont(this, false));
+        edMobile.setTypeface(Library.changeFont(this, false));
+        edPass.setTypeface(Library.changeFont(this, false));
+        lbCheck.setTypeface(Library.changeFont(this, false));
 
         btLogin.setOnClickListener(v -> {
             Log.d("TAG", "onCreate: ");
             String strMobile = edMobile.getText().toString();
             String strPass = edPass.getText().toString();
 
-            if(strMobile.equals("")){
-                Toast.makeText(LoginActivity.this,"لطفا شماره موبایل را وارد نمائید",Toast.LENGTH_SHORT).show();
-            }else if(!strMobile.startsWith("09")||strMobile.length()<11){
-                Toast.makeText(LoginActivity.this,"لطفا شماره موبایل را درست وارد نمائید",Toast.LENGTH_SHORT).show();
-            }else if(strPass.equals("")){
-                Toast.makeText(LoginActivity.this,"لطفا رمزعبور را وارد نمائید",Toast.LENGTH_SHORT).show();
-            }else{
-
-
+            if (strMobile.equals("")) {
+                Toast.makeText(LoginActivity.this, "لطفا شماره موبایل را وارد نمائید", Toast.LENGTH_SHORT).show();
+            } else if (!strMobile.startsWith("09") || strMobile.length() < 11) {
+                Toast.makeText(LoginActivity.this, "لطفا شماره موبایل را درست وارد نمائید", Toast.LENGTH_SHORT).show();
+            } else if (strPass.equals("")) {
+                Toast.makeText(LoginActivity.this, "لطفا رمزعبور را وارد نمائید", Toast.LENGTH_SHORT).show();
+            } else {
+                Library.saveAHSharedPreferences(this,"TypeLogin",checkBox.isChecked());
+                Library.saveAHSharedPreferences(this,"UserPhone",strMobile);
                 finish();
-                startActivity(LoginActivity.this,ListActivity.class);
+                startActivity(LoginActivity.this, ListActivity.class);
             }
 
         });
