@@ -56,14 +56,14 @@ public class AddMngActivity extends AppCompatActivity {
 
         scrollView = findViewById(R.id.scroll_add_mng);
 
-        lbOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        lbNext.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        lbOnvan.setTypeface(Library.changeFont(this,false));
+        lbNext.setTypeface(Library.changeFont(this,false));
 
-        lbAddUser.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        lbSelVaz.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        lbAddUser.setTypeface(Library.changeFont(this,false));
+        lbSelVaz.setTypeface(Library.changeFont(this,false));
 
-        edOnvan.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        edContent.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        edOnvan.setTypeface(Library.changeFont(this,false));
+        edContent.setTypeface(Library.changeFont(this,false));
 
         lbAddUser.setOnClickListener(v -> showUserDialog());
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
@@ -85,7 +85,7 @@ public class AddMngActivity extends AppCompatActivity {
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
         title.setTextSize(20);
-        title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        title.setTypeface(Library.changeFont(this,true));
 
         builder.setCustomTitle(title);
 
@@ -116,11 +116,11 @@ public class AddMngActivity extends AppCompatActivity {
 
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setTextColor(Color.RED);
-        positiveButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        positiveButton.setTypeface(Library.changeFont(this,false));
 
         Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         negativeButton.setTextColor(Color.RED);
-        negativeButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        negativeButton.setTypeface(Library.changeFont(this,false));
 
     }
 
@@ -133,7 +133,7 @@ public class AddMngActivity extends AppCompatActivity {
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
         title.setTextSize(20);
-        title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        title.setTypeface(Library.changeFont(this,true));
 
         builder.setCustomTitle(title);
 
@@ -164,11 +164,11 @@ public class AddMngActivity extends AppCompatActivity {
 
         Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setTextColor(Color.RED);
-        positiveButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        positiveButton.setTypeface(Library.changeFont(this,false));
 
         Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         negativeButton.setTextColor(Color.RED);
-        negativeButton.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        negativeButton.setTypeface(Library.changeFont(this,false));
 
     }
 

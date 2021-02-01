@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         logo = findViewById(R.id.main_logo);
-        Bitmap bm = getBitmapFromAsset("logo.png");
+        Bitmap bm = Library.getBitmapFromAsset(this,"logo.png");
         logo.setImageBitmap(bm);
 
         avLoadingIndicatorView = findViewById(R.id.avi);
 
         ver_main = findViewById(R.id.ver_main);
-        ver_main.setText(convertNum(ver_main.getText().toString(),true));
-        ver_main.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam-Bold.ttf"));
+        ver_main.setText(Library.convertNum(ver_main.getText().toString(),true));
+        ver_main.setTypeface(Library.changeFont(this,true));
 
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -70,39 +70,6 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(myIntent);
     }
 
-    public static String convertNum(String str, boolean Persion) {
-        String[][] chars = new String[][]{
-                {"0", "۰"},
-                {"1", "۱"},
-                {"2", "۲"},
-                {"3", "۳"},
-                {"4", "۴"},
-                {"5", "۵"},
-                {"6", "۶"},
-                {"7", "۷"},
-                {"8", "۸"},
-                {"9", "۹"}
-        };
 
-        for (String[] num : chars) {
-            if (Persion) {
-                str = str.replace(num[0], num[1]);
-            } else {
-                str = str.replace(num[1], num[0]);
-            }
-        }
-        return str;
-    }
 
-    private Bitmap getBitmapFromAsset(String strName)
-    {
-        AssetManager assetManager = getAssets();
-        InputStream istr = null;
-        try {
-            istr = assetManager.open(strName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return BitmapFactory.decodeStream(istr);
-    }
 }

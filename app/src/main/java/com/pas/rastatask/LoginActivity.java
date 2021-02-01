@@ -2,15 +2,7 @@ package com.pas.rastatask;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -23,9 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,11 +37,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         image_back = findViewById(R.id.image_back);
-        Bitmap bm = getBitmapFromAsset("back.jpg");
-        image_back.setImageBitmap(getRoundedCornerBitmap(bm,40));
+        Bitmap bm = Library.getBitmapFromAsset(this,"back.jpg");
+        image_back.setImageBitmap(Library.getRoundedCornerBitmap(bm,40));
 
         image_logo = findViewById(R.id.image_logo);
-        Bitmap bmimage_logo = getBitmapFromAsset("icon.png");
+        Bitmap bmimage_logo = Library.getBitmapFromAsset(this,"icon.png");
         image_logo.setImageBitmap(bmimage_logo);
 
         btLogin = findViewById(R.id.Btlogin);
@@ -61,10 +50,10 @@ public class LoginActivity extends AppCompatActivity {
         lbCheck = findViewById(R.id.text_check_login);
         checkBox = findViewById(R.id.check_l);
 
-        btLogin.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        edMobile.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        edPass.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
-        lbCheck.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Shabnam.ttf"));
+        btLogin.setTypeface(Library.changeFont(this,false));
+        edMobile.setTypeface(Library.changeFont(this,false));
+        edPass.setTypeface(Library.changeFont(this,false));
+        lbCheck.setTypeface(Library.changeFont(this,false));
 
         btLogin.setOnClickListener(v -> {
             Log.d("TAG", "onCreate: ");
@@ -78,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
             }else if(strPass.equals("")){
                 Toast.makeText(LoginActivity.this,"لطفا رمزعبور را وارد نمائید",Toast.LENGTH_SHORT).show();
             }else{
+
+
                 finish();
                 startActivity(LoginActivity.this,ListActivity.class);
             }
@@ -93,38 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         context.startActivity(myIntent);
     }
 
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                .getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, (float) pixels, (float) pixels, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
-    }
-
-    private Bitmap getBitmapFromAsset(String strName)
-    {
-        AssetManager assetManager = getAssets();
-        InputStream istr = null;
-        try {
-            istr = assetManager.open(strName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return BitmapFactory.decodeStream(istr);
-    }
 
     @Override
     public void onBackPressed() {

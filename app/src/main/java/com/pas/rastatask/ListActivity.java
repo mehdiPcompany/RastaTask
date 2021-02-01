@@ -114,7 +114,6 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(ListActivity.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-//                        Toast.makeText(ListActivity.this, mobileNumbers.get(position), Toast.LENGTH_SHORT).show();
                         Context context = ListActivity.this;
                         Intent myIntent = new Intent(context,AddUserActivity.class);
                         context.startActivity(myIntent);
@@ -199,7 +198,7 @@ public class ListActivity extends AppCompatActivity {
                     responses = response.body();
                     for (int i = 0; i < Objects.requireNonNull(responses).size(); i++) {
 
-                        int Rnd1 = Rnd(0,3);
+                        int Rnd1 =Library.Rnd(0,3);
                         String sstatus  ;
                         int col_status = 0;
 
@@ -237,10 +236,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public static int Rnd(int Min, int Max){
-        return Min + new Random().nextInt(Max - Min);
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
