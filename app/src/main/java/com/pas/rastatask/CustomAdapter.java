@@ -7,9 +7,11 @@ import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -60,7 +62,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.content.setTypeface(Typeface.createFromAsset(this.context.getAssets(),"fonts/Shabnam.ttf"));
         holder.onvan.setTypeface(Typeface.createFromAsset(this.context.getAssets(),"fonts/Shabnam.ttf"));
         holder.status.setTypeface(Typeface.createFromAsset(this.context.getAssets(),"fonts/Shabnam.ttf"));
-
+        holder.lb_status.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        Log.d("TAG", String.valueOf(holder.content.getHeight()+holder.content.getTop()+10));
         // implement setOnClickListener event on item view.
         holder.itemView.setOnClickListener(view -> {
             // display a toast with person name on item click
