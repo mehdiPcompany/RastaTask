@@ -12,7 +12,7 @@ public class sql {
         db = SQLiteDatabase.openDatabase(new File(Dir, FileName).toString(), null,
                 (CreateIfNecessary ? SQLiteDatabase.CREATE_IF_NECESSARY : 0) | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
     }
-    
+
     private void checkNull() {
         if (db == null)
             throw new RuntimeException("Object should first be initialized.");
