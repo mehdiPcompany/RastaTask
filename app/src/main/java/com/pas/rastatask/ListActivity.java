@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -25,12 +26,12 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.pas.rastatask.retrofitdata.Response;
+import com.pas.rastatask.retrologin.Login;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @SuppressLint("RtlHardcoded")
 public class ListActivity extends AppCompatActivity {
@@ -132,7 +133,7 @@ public class ListActivity extends AppCompatActivity {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://jsonplaceholder.typicode.com")
+                    .baseUrl("http://rastatask.pasandsoft.ir")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -192,9 +193,45 @@ public class ListActivity extends AppCompatActivity {
 
         APIInterface service = retrofit.create(APIInterface.class);
 
-        Call<List<Response>> call = service.getHeroList(pages);
+        String token = (String) Library.readAHSharedPreferences(ListActivity.this, "token");
+        Call<List<Login>> call = service.getHeroList( "Bearer " + token ,"Mnek!w@ZP(*s");
 
-        call.enqueue(new Callback<List<Response>>() {
+        call.enqueue(new Callback<List<Login>>() {
+            @Override
+            public void onResponse(Call<List<Login>> call, Response<List<Login>> response) {
+                List<Login> responses1;
+                Log.d("ercode", String.valueOf(response.code()));
+
+                if (response.isSuccessful()) {
+                    responses1 = response.body();
+                    int strr = responses1.get(0).getResponse().getCode();
+                    Log.d("TstrrAG", String.valueOf(strr));
+
+                    if (strr == 202) {
+                        Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید1", Toast.LENGTH_SHORT).show();
+                    } else if (strr == 200) {
+                    } else {
+                        Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید2", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    try {
+                        Log.d("er", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d("errr", e.getMessage());
+                    }
+                    Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید3", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Login>> call, Throwable t) {
+                Log.d("TAG123456", t.getMessage());
+                Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید4", Toast.LENGTH_SHORT).show();
+            }
+         });
+        /*call.enqueue(new Callback<List<Response>>() {
             @Override
             public void onResponse(@NonNull Call<List<Response>> call, @NonNull retrofit2.Response<List<Response>> response) {
                 List<Response> responses;
@@ -240,7 +277,7 @@ public class ListActivity extends AppCompatActivity {
                 Toast.makeText(ListActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
             }
         });
-
+*/
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
