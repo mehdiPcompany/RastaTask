@@ -2,13 +2,13 @@ package com.pas.rastatask.retrologin;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Message {
-
-	@SerializedName("idUser")
-	private String idUser;
+public class MessageItem{
 
 	@SerializedName("msg")
 	private String msg;
+
+	@SerializedName("idUser")
+	private String idUser;
 
 	@SerializedName("nameUser")
 	private String nameUser;
@@ -21,6 +21,10 @@ public class Message {
 
 	@SerializedName("token")
 	private String token;
+
+	public String getMsg(){
+		return msg;
+	}
 
 	public String getIdUser(){
 		return idUser;
@@ -40,9 +44,5 @@ public class Message {
 
 	public String getToken(){
 		return token;
-	}
-
-	public String getMsg(){
-		return msg;
 	}
 }

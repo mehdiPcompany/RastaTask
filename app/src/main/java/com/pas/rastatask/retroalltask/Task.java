@@ -1,8 +1,8 @@
-package com.pas.rastatask.retrologin;
+package com.pas.rastatask.retroalltask;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Login{
+public class Task{
 
 	@SerializedName("response")
 	private Response response;

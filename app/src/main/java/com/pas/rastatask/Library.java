@@ -5,12 +5,15 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.view.View;
 
 import com.pas.rastatask.myclass.KeyValueStore;
 import com.pas.rastatask.myclass.sql;
@@ -43,15 +46,39 @@ public interface Library {
         keyValueStore.Put(Key, Value);
     }
 
-    static Object readAHSharedPreferences(@NonNull Context ctx, String Key) {
+    static String readAHSharedPreferences(@NonNull Context ctx, String Key) {
         sql sql1 = new sql();
         KeyValueStore keyValueStore = new KeyValueStore(sql1);
         keyValueStore.Initialize(ctx.getApplicationContext().getFilesDir().toString(), "AllValue.db");
         if(keyValueStore.ContainsKey(Key)){
             return keyValueStore.Get(Key);
         }else {
-            return 0;
+            return "0";
         }
+    }
+
+    static void colorDrawableRadius(View v, int color, float radius){
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(color);
+        gd.setCornerRadius(radius);
+        gd.setStroke(0, 0);
+        v.setBackground(gd);
+    }
+    static void colorDrawableBorder(View v, int color, float radius, int border_radius, int boder_color){
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(color);
+        gd.setCornerRadius(radius);
+        gd.setStroke(border_radius, boder_color);
+        v.setBackground(gd);
+    }
+
+    static void setCornerRadii(View v, int color, float radius, int border_radius, int boder_color, Float Rx_TopLeft, Float Ry_TopLeft, Float Rx_TopRight, Float Ry_TopRight, Float Rx_BottomRight, Float Ry_BottomRight, Float Rx_BottomLeft, Float Ry_BottomLeft){
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(color);
+//        gd.setCornerRadius(radius);
+        gd.setCornerRadii(new float[] { Rx_TopLeft, Ry_TopLeft, Rx_TopRight, Ry_TopRight, Rx_BottomRight, Ry_BottomRight, Rx_BottomLeft, Ry_BottomLeft});
+        gd.setStroke(border_radius, boder_color);
+        v.setBackground(gd);
     }
 
     static String convertNum(String str, boolean Persion) {

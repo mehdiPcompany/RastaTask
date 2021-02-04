@@ -9,8 +9,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,11 +24,10 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.pas.rastatask.retroalltask.Task;
 import com.pas.rastatask.retrologin.Login;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("RtlHardcoded")
@@ -48,9 +45,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> statusAsliTask = new ArrayList<>();
     ArrayList<String> onvanAsliTask = new ArrayList<>();
     ArrayList<String> contentAsliTask = new ArrayList<>();
-    ArrayList<Integer> statusTask = new ArrayList<>();
-
-    private static Retrofit retrofit;
+    ArrayList<String> statusTask = new ArrayList<>();
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView recyclerView;
@@ -131,13 +126,6 @@ public class ListActivity extends AppCompatActivity {
                 })
         );
 
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("http://rastatask.pasandsoft.ir")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-
         luddite();
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
@@ -165,9 +153,9 @@ public class ListActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    pages++;
-                    luddite();
+//                    mSwipeRefreshLayout.setRefreshing(true);
+//                    pages++;
+//                    luddite();
                 }
             }
 
@@ -191,93 +179,55 @@ public class ListActivity extends AppCompatActivity {
 
     void luddite() {
 
-        APIInterface service = retrofit.create(APIInterface.class);
+        APIInterface service = APIClient.getClient().create(APIInterface.class);
 
-        String token = (String) Library.readAHSharedPreferences(ListActivity.this, "token");
-        Call<List<Login>> call = service.getHeroList( "Bearer " + token ,"Mnek!w@ZP(*s");
+        Call<Task> call = service.getAllTask("Bearer "+Library.readAHSharedPreferences(ListActivity.this, "Token"), "Mnek!w@ZP(*s");
 
-        call.enqueue(new Callback<List<Login>>() {
+        call.enqueue(new Callback<Task>() {
             @Override
-            public void onResponse(Call<List<Login>> call, Response<List<Login>> response) {
-                List<Login> responses1;
-                Log.d("ercode", String.valueOf(response.code()));
-
-                if (response.isSuccessful()) {
-                    responses1 = response.body();
-                    int strr = responses1.get(0).getResponse().getCode();
-                    Log.d("TstrrAG", String.valueOf(strr));
-
-                    if (strr == 202) {
-                        Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید1", Toast.LENGTH_SHORT).show();
-                    } else if (strr == 200) {
-                    } else {
-                        Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید2", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    try {
-                        Log.d("er", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.d("errr", e.getMessage());
-                    }
-                    Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید3", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Login>> call, Throwable t) {
-                Log.d("TAG123456", t.getMessage());
-                Toast.makeText(ListActivity.this, "لطفا مجددا تلاش فرمائید4", Toast.LENGTH_SHORT).show();
-            }
-         });
-        /*call.enqueue(new Callback<List<Response>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Response>> call, @NonNull retrofit2.Response<List<Response>> response) {
-                List<Response> responses;
-
-                if (response.isSuccessful()) {
-                    responses = response.body();
-                    for (int i = 0; i < Objects.requireNonNull(responses).size(); i++) {
-
-                        int Rnd1 = Library.Rnd(0, 3);
-                        String sstatus;
-                        int col_status = 0;
-
-                        onvanAsliTask.add("جهت تست این پروژه سریعا اقدام نمائید");
-                        contentAsliTask.add("این پروژه چندین خط دارد و ممکن است برای همه باغث زیان و ضرر شود با این من این پروپزه رو قبول میکنم و ممئن باشید به نجوه احسنت آمرا به گایان خواهم رساند. جلوتر خواهیم دید.");
-                        if (Rnd1 == 0) {
-                            col_status = R.drawable.recycler_item_corner_radius_red;
-                        } else if (Rnd1 == 1) {
-                            col_status = R.drawable.recycler_item_corner_radius_orange;
-                        } else if (Rnd1 == 2) {
-                            col_status = R.drawable.recycler_item_corner_radius_green;
-                        }
-                        sstatus = "درحال بررسی";
-                        statusTask.add(col_status);
-                        statusAsliTask.add("وضعیت: " + sstatus);
-
-                    }
-
-                    customAdapter.notifyDataSetChanged();
-
-                    mSwipeRefreshLayout.setRefreshing(false);
-
-
-                } else {
-                    Log.d("TAG", "onError");
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Response>> call, @NonNull Throwable t) {
-                Log.d("TAG", Objects.requireNonNull(t.getMessage()));
+            public void onResponse(@NonNull Call<Task> call, @NonNull Response<Task> response) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(ListActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
+
+                if (response.isSuccessful()) {
+                    Task getBody = response.body();
+                    int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
+
+                    if (getCode == 200) {
+
+                        for (int i = 0; i < getBody.getResponse().getMessage().size(); i++) {
+
+                            String sstatus;
+                            int col_status = 0;
+
+                            onvanAsliTask.add(getBody.getResponse().getMessage().get(i).getTitle());
+                            contentAsliTask.add(getBody.getResponse().getMessage().get(i).getComment());
+
+                            sstatus = getBody.getResponse().getMessage().get(i).getStatus();
+                            statusTask.add(getBody.getResponse().getMessage().get(i).getColorStatus());
+                            statusAsliTask.add("وضعیت: " + sstatus);
+
+                        }
+
+                        customAdapter.notifyDataSetChanged();
+
+                        mSwipeRefreshLayout.setRefreshing(false);
+
+                    } else {
+                        Toast.makeText(ListActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(ListActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Task> call, @NonNull Throwable t) {
+                mSwipeRefreshLayout.setRefreshing(false);
+
             }
         });
-*/
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {

@@ -26,7 +26,7 @@ public class KeyValueStore {
         sql1.ExecNonQuery("INSERT OR REPLACE INTO main VALUES('" + Key + "','" + Value + "')");
     }
 
-    public Object Get(String Key) {
+    public String Get(String Key) {
         Cursor cursor1 = sql1.ExecQuery("SELECT value FROM main WHERE key = '" + Key + "'");
         cursor1.moveToPosition(0);
         return cursor1.getString(cursor1.getColumnIndexOrThrow("value"));

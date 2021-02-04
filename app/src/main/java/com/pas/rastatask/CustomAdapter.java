@@ -3,6 +3,7 @@ package com.pas.rastatask;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -23,10 +24,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     ArrayList<String> statusAsliTask;
     ArrayList<String> onvanAsliTask;
     ArrayList<String> contentAsliTask;
-    ArrayList<Integer> statusTask;
+    ArrayList<String> statusTask;
     Context context;
 
-    public CustomAdapter(Context context, ArrayList<String> statusAsliTask, ArrayList<String> onvanAsliTask, ArrayList<String> contentAsliTask, ArrayList<Integer> statusTask) {
+    public CustomAdapter(Context context, ArrayList<String> statusAsliTask, ArrayList<String> onvanAsliTask, ArrayList<String> contentAsliTask, ArrayList<String> statusTask) {
         this.context = context;
         this.statusAsliTask = statusAsliTask;
         this.onvanAsliTask = onvanAsliTask;
@@ -54,7 +55,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.status.setText(sb);
         holder.onvan.setText(onvanAsliTask.get(position));
         holder.content.setText(contentAsliTask.get(position));
-        holder.lb_status.setBackgroundResource(statusTask.get(position));
+//        holder.lb_status.setBackgroundResource(statusTask.get(position));
+
+        int colorInt = Color.parseColor(statusTask.get(position));
+        Library.setCornerRadii(holder.lb_status, colorInt,0,0,0,0f,0f,7f,7f,7f,7f,0f,0f);
 
         holder.content.setTypeface(Library.changeFont(this.context,false));
         holder.onvan.setTypeface(Library.changeFont(this.context,false));

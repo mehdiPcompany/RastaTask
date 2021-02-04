@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pas.rastatask.retrologin.Login;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
     CheckBox checkBox;
 
-    private static Retrofit retrofit;
     ProgressDialog progressdialog;
 
     @Override
@@ -81,10 +81,6 @@ public class LoginActivity extends AppCompatActivity {
             } else if (strPass.equals("")) {
                 Toast.makeText(LoginActivity.this, "لطفا رمزعبور را وارد نمائید", Toast.LENGTH_SHORT).show();
             } else {
-//                Library.saveAHSharedPreferences(this,"TypeLogin",checkBox.isChecked());
-//                Library.saveAHSharedPreferences(this,"UserPhone",strMobile);
-//                finish();
-//                startActivity(LoginActivity.this, ListActivity.class);
                 progressdialog.show();
                 SetLogin();
             }
@@ -93,59 +89,50 @@ public class LoginActivity extends AppCompatActivity {
 
         lbCheck.setOnClickListener(v -> checkBox.setChecked(!checkBox.isChecked()));
 
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("http://rastatask.pasandsoft.ir")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-
-
     }
 
 
     void SetLogin() {
-        APIInterface service = retrofit.create(APIInterface.class);
+
+        APIInterface service = APIClient.getClient().create(APIInterface.class);
 
         Call<Login> call = service.getLogin(edMobile.getText().toString(), edPass.getText().toString(), "Mnek!w@ZP(*s");
 
         call.enqueue(new Callback<Login>() {
             @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
-                Login responses;
+            public void onResponse(@NonNull Call<Login> call, @NonNull Response<Login> response) {
                 progressdialog.dismiss();
+
                 if (response.isSuccessful()) {
-                    responses = response.body();
-                    int strr = responses.getResponse().getCode();
-                    Log.d("TstrrAG", String.valueOf(strr));
+                    Login getBody = response.body();
+                    int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
 
-                    if (strr == 202) {
-                        Toast.makeText(LoginActivity.this, "نام کاربری یا رمز عبور اشتباه می باشد.", Toast.LENGTH_SHORT).show();
-                    } else if (strr == 200) {
-                        Library.saveAHSharedPreferences(LoginActivity.this,"token",responses.getResponse().getMessage().getToken());
-                        Library.saveAHSharedPreferences(LoginActivity.this,"nameUser",responses.getResponse().getMessage().getNameUser());
-                        Library.saveAHSharedPreferences(LoginActivity.this,"idUser",responses.getResponse().getMessage().getIdUser());
-                        Library.saveAHSharedPreferences(LoginActivity.this,"typeUser",responses.getResponse().getMessage().getTypeUser());
-                        Library.saveAHSharedPreferences(LoginActivity.this,"username",responses.getResponse().getMessage().getUsername());
-
-                        startActivity(LoginActivity.this,ListActivity.class);
+                    if(getCode == 200) {
+                        Library.saveAHSharedPreferences(LoginActivity.this, "TypeLogin", checkBox.isChecked());
+                        Library.saveAHSharedPreferences(LoginActivity.this, "UserPhone", edMobile.getText().toString());
+                        Library.saveAHSharedPreferences(LoginActivity.this, "NameUser", getBody.getResponse().getMessage().get(0).getNameUser());
+                        Library.saveAHSharedPreferences(LoginActivity.this, "IdUser", getBody.getResponse().getMessage().get(0).getIdUser());
+                        Library.saveAHSharedPreferences(LoginActivity.this, "Token", getBody.getResponse().getMessage().get(0).getToken());
                         finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                        startActivity(LoginActivity.this, ListActivity.class);
+                    }else{
+                        Toast.makeText(LoginActivity.this, "نام‌کاربری یا رمزعبور اشتباه می‌باشد.", Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
-                    Toast.makeText(LoginActivity.this, "لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
             @Override
-            public void onFailure(Call<Login> call, Throwable t) {
+            public void onFailure(@NonNull Call<Login> call, @NonNull Throwable t) {
                 progressdialog.dismiss();
-                Log.d("TAG123456", t.getMessage());
-                Toast.makeText(LoginActivity.this, "لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                Log.d("onFailureTAG", Objects.requireNonNull(t.getMessage()));
+                Toast.makeText(LoginActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
