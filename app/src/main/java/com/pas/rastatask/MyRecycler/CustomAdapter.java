@@ -1,9 +1,8 @@
-package com.pas.rastatask;
+package com.pas.rastatask.MyRecycler;
 
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -11,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.R;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -25,10 +27,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     ArrayList<String> onvanAsliTask;
     ArrayList<String> contentAsliTask;
     ArrayList<String> statusTask;
+    ArrayList<String> id;
     Context context;
 
-    public CustomAdapter(Context context, ArrayList<String> statusAsliTask, ArrayList<String> onvanAsliTask, ArrayList<String> contentAsliTask, ArrayList<String> statusTask) {
+    public CustomAdapter(Context context, ArrayList<String> id,ArrayList<String> statusAsliTask, ArrayList<String> onvanAsliTask, ArrayList<String> contentAsliTask, ArrayList<String> statusTask) {
         this.context = context;
+        this.id = id;
         this.statusAsliTask = statusAsliTask;
         this.onvanAsliTask = onvanAsliTask;
         this.contentAsliTask = contentAsliTask;
@@ -63,6 +67,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.content.setTypeface(Library.changeFont(this.context,false));
         holder.onvan.setTypeface(Library.changeFont(this.context,false));
         holder.status.setTypeface(Library.changeFont(this.context,false));
+
+        holder.itemView.setTag(id.get(position));
 
         // implement setOnClickListener event on item view.
         holder.itemView.setOnClickListener(view -> {

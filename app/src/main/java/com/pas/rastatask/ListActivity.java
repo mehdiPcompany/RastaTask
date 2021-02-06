@@ -20,12 +20,17 @@ import android.view.KeyEvent;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.pas.rastatask.API.APIClient;
+import com.pas.rastatask.API.APIInterface;
+import com.pas.rastatask.MyRecycler.CustomAdapter;
+import com.pas.rastatask.MyRecycler.RecyclerItemClickListener;
+import com.pas.rastatask.myclass.Library;
 import com.pas.rastatask.retroalltask.Task;
-import com.pas.rastatask.retrologin.Login;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -37,6 +42,7 @@ public class ListActivity extends AppCompatActivity {
     private long mBackPressed;
 
     private DrawerLayout drawerLayout1;
+    private TextView lbHeder;
 
     FloatingActionButton floatingActionButton;
 
@@ -46,6 +52,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> onvanAsliTask = new ArrayList<>();
     ArrayList<String> contentAsliTask = new ArrayList<>();
     ArrayList<String> statusTask = new ArrayList<>();
+    ArrayList<String> id = new ArrayList<>();
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView recyclerView;
@@ -62,8 +69,8 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        drawerLayout1 = findViewById((R.id.drawerLayout));
-        floatingActionButton = findViewById((R.id.fab));
+        drawerLayout1 = findViewById(R.id.drawerLayout);
+        floatingActionButton = findViewById(R.id.fab);
 
         if (Library.readAHSharedPreferences(this, "TypeLogin").equals("false")) {
             floatingActionButton.setVisibility(View.GONE);
@@ -101,22 +108,27 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+//        lbHeder = findViewById(R.id.lb_menu_header);
+//        lbHeder.setText(Library.readAHSharedPreferences(this,"NameUser"));
+//        lbHeder.setTypeface(Library.changeFont(this, false));
+
 //        add view
 
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        customAdapter = new CustomAdapter(ListActivity.this, statusAsliTask, onvanAsliTask, contentAsliTask, statusTask);
+        customAdapter = new CustomAdapter(ListActivity.this, id, statusAsliTask, onvanAsliTask, contentAsliTask, statusTask);
         recyclerView.setAdapter(customAdapter);
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Context context = ListActivity.this;
-                        Intent myIntent = new Intent(context, AddUserActivity.class);
-                        context.startActivity(myIntent);
+//                        Context context = ListActivity.this;
+//                        Intent myIntent = new Intent(context, AddUserActivity.class);
+//                        context.startActivity(myIntent);
+                        Log.d("dsdsf", view.getTag().toString());
                     }
 
                     @Override
@@ -195,17 +207,11 @@ public class ListActivity extends AppCompatActivity {
                     if (getCode == 200) {
 
                         for (int i = 0; i < getBody.getResponse().getMessage().size(); i++) {
-
-                            String sstatus;
-                            int col_status = 0;
-
+                            id.add(getBody.getResponse().getMessage().get(i).getId());
                             onvanAsliTask.add(getBody.getResponse().getMessage().get(i).getTitle());
                             contentAsliTask.add(getBody.getResponse().getMessage().get(i).getComment());
-
-                            sstatus = getBody.getResponse().getMessage().get(i).getStatus();
                             statusTask.add(getBody.getResponse().getMessage().get(i).getColorStatus());
-                            statusAsliTask.add("وضعیت: " + sstatus);
-
+                            statusAsliTask.add("وضعیت: " + getBody.getResponse().getMessage().get(i).getStatus());
                         }
 
                         customAdapter.notifyDataSetChanged();

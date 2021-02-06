@@ -1,4 +1,4 @@
-package com.pas.rastatask;
+package com.pas.rastatask.myclass;
 
 import android.content.Context;
 import android.content.res.AssetManager;

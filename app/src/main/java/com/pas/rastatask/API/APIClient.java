@@ -1,8 +1,5 @@
-package com.pas.rastatask;
+package com.pas.rastatask.API;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -10,9 +7,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-class APIClient {
+public class APIClient {
 
-    static Retrofit getClient() {
+    public static Retrofit getClient() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -27,10 +24,11 @@ class APIClient {
                 .addInterceptor(interceptor).build();
 
         return new Retrofit.Builder()
-                .baseUrl("http://rastatask.pasandsoft.ir")
+                .baseUrl("https://rastatask.pasandsoft.ir")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
     }
 
 }
+

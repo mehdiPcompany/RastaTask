@@ -20,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pas.rastatask.API.APIClient;
+import com.pas.rastatask.API.APIInterface;
+import com.pas.rastatask.myclass.Library;
 import com.pas.rastatask.retrologin.Login;
 
 import java.util.Objects;
@@ -46,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        progressdialog = new ProgressDialog(LoginActivity.this);
+        progressdialog = new ProgressDialog(this);
         progressdialog.setCancelable(false);
         progressdialog.setMessage("لطفا کمی صبر کنید");
 

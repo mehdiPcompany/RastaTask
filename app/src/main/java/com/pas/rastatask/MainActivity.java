@@ -7,12 +7,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pas.rastatask.myclass.KeyValueStore;
-import com.pas.rastatask.myclass.sql;
+import com.pas.rastatask.myclass.Library;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Timer;

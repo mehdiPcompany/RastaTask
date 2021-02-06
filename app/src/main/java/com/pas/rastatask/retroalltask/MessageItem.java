@@ -25,6 +25,9 @@ public class MessageItem{
 	@SerializedName("colorstatus")
 	private String colorstatus;
 
+	@SerializedName("state")
+	private String state;
+
 	public String getDate(){
 		return date;
 	}
@@ -51,6 +54,10 @@ public class MessageItem{
 
 	public String getColorStatus(){
 		return colorstatus;
+	}
+
+	public String getState(){
+		return state;
 	}
 
 }

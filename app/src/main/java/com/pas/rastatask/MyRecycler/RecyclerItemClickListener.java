@@ -1,4 +1,4 @@
-package com.pas.rastatask;
+package com.pas.rastatask.MyRecycler;
 
 import android.content.Context;
 import android.view.GestureDetector;

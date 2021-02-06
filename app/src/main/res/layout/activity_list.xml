@@ -109,7 +109,7 @@
                 android:layout_gravity="right"
                 android:textDirection="rtl"
                 android:layoutDirection="rtl"
-                app:headerLayout="@menu/nav_header_main"
+                app:headerLayout="@layout/nav_header_main"
                 app:menu="@menu/navigation_drawer" />
 
 
