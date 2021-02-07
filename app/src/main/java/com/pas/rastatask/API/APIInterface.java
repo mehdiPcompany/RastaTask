@@ -4,6 +4,7 @@ import com.pas.rastatask.retroaddtask.AddTask;
 import com.pas.rastatask.retroallstate.State;
 import com.pas.rastatask.retroalltask.Task;
 import com.pas.rastatask.retrologin.Login;
+import com.pas.rastatask.retroonetask.OneTask;
 
 import java.util.HashMap;
 
@@ -21,9 +22,15 @@ public interface APIInterface {
                           @Query("password") String password
     );
 
+    @GET("/api/v1/task")
+    Call<OneTask> getTask(@Header("Authorization") String token,
+                          @Query("password") String password,
+                          @Query("idtask") String id
+    );
+
     @POST("/api/v1/task")
     Call<AddTask> setTask(@Header("Authorization") String token,
-                          @Body HashMap<String,Object> body
+                          @Body String body
     );
 
     @GET("/api/v1/state")

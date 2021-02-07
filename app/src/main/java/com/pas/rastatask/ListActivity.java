@@ -11,6 +11,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +31,11 @@ import com.pas.rastatask.API.APIInterface;
 import com.pas.rastatask.MyRecycler.CustomAdapter;
 import com.pas.rastatask.MyRecycler.RecyclerItemClickListener;
 import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.myclass.startActivity;
 import com.pas.rastatask.retroalltask.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("RtlHardcoded")
@@ -72,12 +75,12 @@ public class ListActivity extends AppCompatActivity {
         drawerLayout1 = findViewById(R.id.drawerLayout);
         floatingActionButton = findViewById(R.id.fab);
 
-        if (Library.readAHSharedPreferences(this, "TypeLogin").equals("false")) {
+        if (Library.readAHSharedPreferences(this, "TypeUser").equals("2")) {
             floatingActionButton.setVisibility(View.GONE);
         } else {
             floatingActionButton.setOnClickListener(v -> {
                 finish();
-                startActivity(AddMngActivity.class);
+                startActivity.Activity2(this,AddMngActivity.class);
             });
         }
 
@@ -125,10 +128,8 @@ public class ListActivity extends AppCompatActivity {
                 new RecyclerItemClickListener(ListActivity.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-//                        Context context = ListActivity.this;
-//                        Intent myIntent = new Intent(context, AddUserActivity.class);
-//                        context.startActivity(myIntent);
-                        Log.d("dsdsf", view.getTag().toString());
+                        startActivity.Activity2(ListActivity.this,AddUserActivity.class);
+                        Library.saveAHSharedPreferences(ListActivity.this,"TagShow",view.getTag());
                     }
 
                     @Override
@@ -174,7 +175,7 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (Library.readAHSharedPreferences(ListActivity.this, "TypeLogin").equals("true")) {
+                if (Library.readAHSharedPreferences(ListActivity.this, "TypeUser").equals("1")) {
                     if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
                         floatingActionButton.hide();
                     } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
@@ -264,12 +265,6 @@ public class ListActivity extends AppCompatActivity {
         } else {
             return super.onKeyUp(keyCode, event);
         }
-    }
-
-    public void startActivity(Class activity) {
-        Context context = ListActivity.this;
-        Intent myIntent = new Intent(context, activity);
-        context.startActivity(myIntent);
     }
 
 }

@@ -9,24 +9,27 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.pas.rastatask.API.APIClient;
 import com.pas.rastatask.API.APIInterface;
 import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.myclass.startActivity;
 import com.pas.rastatask.retroaddtask.AddTask;
 import com.pas.rastatask.retroallstate.State;
+import com.pas.rastatask.retroonetask.OneTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,70 +93,77 @@ public class AddUserActivity extends AppCompatActivity {
 
         edContent.setTypeface(Library.changeFont(this,false));
 
-        get_state();
+        if (Library.readAHSharedPreferences(this, "TypeUser").equals("1")) {
+            edContent.setEnabled(false);
+            lbSelVaz.setEnabled(false);
+            lbNext.setVisibility(View.GONE);
+        }
+
+        show_task();
 
         lbSelVaz.setOnClickListener(v -> showStatusDialog());
 
         panClose.setOnClickListener(v -> {
             finish();
-            Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
-            AddUserActivity.this.startActivity(myIntent);
+            startActivity.Activity2(AddUserActivity.this,ListActivity.class);
         });
 
         lbNext.setOnClickListener(v -> {
             progressdialog.show();
+            set_comment();
+        });
 
-            APIInterface service = APIClient.getClient().create(APIInterface.class);
+    }
 
-            HashMap<String,Object> mBody= new HashMap<>();
-            mBody.put("user",Library.readAHSharedPreferences(AddUserActivity.this, "IdUser"));
-            mBody.put("password","Mnek!w@ZP(*s");
-            mBody.put("state",id_state);
-            mBody.put("idtask","White");
-            mBody.put("comment",edContent.getText());
+    private void show_task(){
+        APIInterface service = APIClient.getClient().create(APIInterface.class);
 
-            Call<AddTask> call = service.setTask("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token") ,mBody);
+        Call<OneTask> call = service.getTask("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token"), "Mnek!w@ZP(*s",Library.readAHSharedPreferences(this,"TagShow"));
 
-            call.enqueue(new Callback<AddTask>() {
-                @Override
-                public void onResponse(@NonNull Call<AddTask> call, @NonNull Response<AddTask> response) {
-                    progressdialog.dismiss();
+        call.enqueue(new Callback<OneTask>() {
+            @Override
+            public void onResponse(@NonNull Call<OneTask> call, @NonNull Response<OneTask> response) {
+                if(response.isSuccessful()){
+                    OneTask getBody = response.body();
+                    int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
 
-                    if (response.isSuccessful()) {
-                        AddTask getBody = response.body();
-                        int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
-
-                        if(getCode==202){
-                            Toast.makeText(AddUserActivity.this, "توضیحات شما با موفقیت ارسال گردید.", Toast.LENGTH_SHORT).show();
-
-                            finish();
-                            Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
-                            AddUserActivity.this.startActivity(myIntent);
-
-                        }else {
-                            Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                    if(getCode==200){
+                        if(getBody.getResponse().getMessage().get(0).getState()!=null){
+                            lbSelVaz.setText(getBody.getResponse().getMessage().get(0).getState());
                         }
-
-                    }else {
+                        if(getBody.getResponse().getMessage().get(0).getTitle()!=null){
+                            lbOnvanMng.setText(getBody.getResponse().getMessage().get(0).getTitle());
+                        }
+                        if(getBody.getResponse().getMessage().get(0).getCommentmanager()!=null){
+                            lbContentMng.setText(getBody.getResponse().getMessage().get(0).getCommentmanager());
+                        }
+                        if(getBody.getResponse().getMessage().get(0).getCommentuser()!=null){
+                            edContent.setText(getBody.getResponse().getMessage().get(0).getCommentuser());
+                        }
+                        get_state();
+                    }else{
+                        progressdialog.dismiss();
                         Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
                     }
-                }
 
-                @Override
-                public void onFailure(@NonNull Call<AddTask> call, @NonNull Throwable t) {
+                }else{
                     progressdialog.dismiss();
-                    Log.d("onFailureTAG", Objects.requireNonNull(t.getMessage()));
                     Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
                 }
-            });
 
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OneTask> call, @NonNull Throwable t) {
+                progressdialog.dismiss();
+                Log.d("onFailureTAG", Objects.requireNonNull(t.getMessage()));
+                Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+            }
         });
 
     }
 
     private void get_state(){
-        progressdialog.show();
-
         APIInterface service = APIClient.getClient().create(APIInterface.class);
 
         Call<State> call = service.getState("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token"), "Mnek!w@ZP(*s");
@@ -245,10 +255,62 @@ public class AddUserActivity extends AppCompatActivity {
 
     }
 
+    void set_comment(){
+
+        APIInterface service = APIClient.getClient().create(APIInterface.class);
+
+//        HashMap<String,Object> mBody= new HashMap<>();
+//        HashMap<String,Object> mBody= new HashMap<>();
+        JsonObject obj = new JsonObject();
+        JsonObject payerReg = new JsonObject();
+        payerReg.addProperty("user",Library.readAHSharedPreferences(AddUserActivity.this, "IdUser"));
+        payerReg.addProperty("password","Mnek!w@ZP(*s");
+        payerReg.addProperty("state",id_state);
+        payerReg.addProperty("idtask",Library.readAHSharedPreferences(this,"TagShow"));
+        payerReg.addProperty("comment",edContent.getText().toString());
+
+//        HashMap<String,Object> mBody2= new HashMap<>();
+//        mBody2.put("rqp",mBody);
+        obj.add("payerReg",payerReg);
+
+        Call<AddTask> call = service.setTask("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token") ,obj.toString());
+
+        call.enqueue(new Callback<AddTask>() {
+            @Override
+            public void onResponse(@NonNull Call<AddTask> call, @NonNull Response<AddTask> response) {
+                progressdialog.dismiss();
+
+                if (response.isSuccessful()) {
+                    AddTask getBody = response.body();
+                    int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
+
+                    if(getCode==202){
+                        Toast.makeText(AddUserActivity.this, "توضیحات شما با موفقیت ارسال گردید.", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity.Activity2(AddUserActivity.this,ListActivity.class);
+                    }else {
+                        Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else {
+                    Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AddTask> call, @NonNull Throwable t) {
+                progressdialog.dismiss();
+                Log.d("onFailureTAG", Objects.requireNonNull(t.getMessage()));
+                Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     @Override
     public void onBackPressed() {
         finish();
-        Intent myIntent = new Intent(AddUserActivity.this, ListActivity.class);
-        AddUserActivity.this.startActivity(myIntent);
+        startActivity.Activity2(AddUserActivity.this,ListActivity.class);
     }
+
 }

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.myclass.startActivity;
 
 public class AddMngActivity extends AppCompatActivity {
 
@@ -72,8 +73,7 @@ public class AddMngActivity extends AppCompatActivity {
 
         panClose.setOnClickListener(v -> {
             finish();
-            Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
-            AddMngActivity.this.startActivity(myIntent);
+            startActivity.Activity2(AddMngActivity.this,ListActivity.class);
         });
 
 
@@ -179,8 +179,7 @@ public class AddMngActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        Intent myIntent = new Intent(AddMngActivity.this, ListActivity.class);
-        AddMngActivity.this.startActivity(myIntent);
+        startActivity.Activity2(AddMngActivity.this,ListActivity.class);
     }
 
 }

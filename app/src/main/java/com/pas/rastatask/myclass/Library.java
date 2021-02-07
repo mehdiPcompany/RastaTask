@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -14,9 +13,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
-
-import com.pas.rastatask.myclass.KeyValueStore;
-import com.pas.rastatask.myclass.sql;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,14 +37,14 @@ public interface Library {
 
     static void saveAHSharedPreferences(@NonNull Context ctx, String Key, Object Value) {
         sql sql1 = new sql();
-        KeyValueStore keyValueStore = new KeyValueStore(sql1);
+        keyValueStore keyValueStore = new keyValueStore(sql1);
         keyValueStore.Initialize(ctx.getApplicationContext().getFilesDir().toString(), "AllValue.db");
         keyValueStore.Put(Key, Value);
     }
 
     static String readAHSharedPreferences(@NonNull Context ctx, String Key) {
         sql sql1 = new sql();
-        KeyValueStore keyValueStore = new KeyValueStore(sql1);
+        keyValueStore keyValueStore = new keyValueStore(sql1);
         keyValueStore.Initialize(ctx.getApplicationContext().getFilesDir().toString(), "AllValue.db");
         if(keyValueStore.ContainsKey(Key)){
             return keyValueStore.Get(Key);

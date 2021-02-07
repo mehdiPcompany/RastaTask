@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.myclass.startActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Timer;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 timer.cancel();
                 finish();
-                startActivity(MainActivity.this,LoginActivity.class);
+                startActivity.Activity2(MainActivity.this,LoginActivity.class);
             }
         },3000);
     }
@@ -59,13 +60,5 @@ public class MainActivity extends AppCompatActivity {
         finish();
         System.exit(0);
     }
-
-
-    public void startActivity(Context context, Class activity) {
-        Intent myIntent = new Intent(context, activity);
-        context.startActivity(myIntent);
-    }
-
-
 
 }

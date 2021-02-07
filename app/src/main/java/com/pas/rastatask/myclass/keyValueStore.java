@@ -2,11 +2,11 @@ package com.pas.rastatask.myclass;
 
 import android.database.Cursor;
 
-public class KeyValueStore {
+public class keyValueStore {
 
     private final sql sql1;
 
-    public KeyValueStore(sql sql1) {
+    public keyValueStore(sql sql1) {
         this.sql1 = sql1;
     }
 

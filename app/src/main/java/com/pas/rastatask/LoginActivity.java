@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.pas.rastatask.API.APIClient;
 import com.pas.rastatask.API.APIInterface;
 import com.pas.rastatask.myclass.Library;
+import com.pas.rastatask.myclass.startActivity;
 import com.pas.rastatask.retrologin.Login;
 
 import java.util.Objects;
@@ -38,9 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btLogin;
     EditText edMobile;
     EditText edPass;
-    TextView lbCheck;
-
-    CheckBox checkBox;
 
     ProgressDialog progressdialog;
 
@@ -64,13 +62,10 @@ public class LoginActivity extends AppCompatActivity {
         btLogin = findViewById(R.id.Btlogin);
         edMobile = findViewById(R.id.mobile_edl);
         edPass = findViewById(R.id.pass_edl);
-        lbCheck = findViewById(R.id.text_check_login);
-        checkBox = findViewById(R.id.check_l);
 
         btLogin.setTypeface(Library.changeFont(this, false));
         edMobile.setTypeface(Library.changeFont(this, false));
         edPass.setTypeface(Library.changeFont(this, false));
-        lbCheck.setTypeface(Library.changeFont(this, false));
 
         btLogin.setOnClickListener(v -> {
             Log.d("TAG", "onCreate: ");
@@ -89,8 +84,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-
-        lbCheck.setOnClickListener(v -> checkBox.setChecked(!checkBox.isChecked()));
 
     }
 
@@ -111,13 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                     int getCode = Objects.requireNonNull(getBody).getResponse().getCode();
 
                     if(getCode == 200) {
-                        Library.saveAHSharedPreferences(LoginActivity.this, "TypeLogin", checkBox.isChecked());
+                        Library.saveAHSharedPreferences(LoginActivity.this, "TypeUser", getBody.getResponse().getMessage().get(0).getTypeUser());
                         Library.saveAHSharedPreferences(LoginActivity.this, "UserPhone", edMobile.getText().toString());
                         Library.saveAHSharedPreferences(LoginActivity.this, "NameUser", getBody.getResponse().getMessage().get(0).getNameUser());
                         Library.saveAHSharedPreferences(LoginActivity.this, "IdUser", getBody.getResponse().getMessage().get(0).getIdUser());
                         Library.saveAHSharedPreferences(LoginActivity.this, "Token", getBody.getResponse().getMessage().get(0).getToken());
                         finish();
-                        startActivity(LoginActivity.this, ListActivity.class);
+                        startActivity.Activity2(LoginActivity.this, ListActivity.class);
                     }else{
                         Toast.makeText(LoginActivity.this, "نام‌کاربری یا رمزعبور اشتباه می‌باشد.", Toast.LENGTH_SHORT).show();
                     }
@@ -138,13 +131,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
-
-    public void startActivity(Context context, Class activity) {
-        Intent myIntent = new Intent(context, activity);
-        context.startActivity(myIntent);
-    }
-
 
     @Override
     public void onBackPressed() {
