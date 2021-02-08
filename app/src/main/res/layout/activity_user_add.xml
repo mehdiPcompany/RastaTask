@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:minLines="6"
                     android:id="@+id/tozihat_ed_user"
-                    android:hint="@string/mng_tozih"
+                    android:hint="@string/user_tozih"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textColor="@color/black"
                     android:textSize="15sp"

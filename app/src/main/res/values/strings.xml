@@ -15,5 +15,6 @@
     <string name="mng_tozih">توضیحات</string>
     <string name="onvan_user_add">توضیحات کار</string>
     <string name="user_sel_vaz">وضعیت</string>
+    <string name="user_tozih">توضیحات کاربر</string>
 
 </resources>

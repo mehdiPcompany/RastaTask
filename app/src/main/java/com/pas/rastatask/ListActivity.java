@@ -212,7 +212,7 @@ public class ListActivity extends AppCompatActivity {
                             onvanAsliTask.add(getBody.getResponse().getMessage().get(i).getTitle());
                             contentAsliTask.add(getBody.getResponse().getMessage().get(i).getComment());
                             statusTask.add(getBody.getResponse().getMessage().get(i).getColorStatus());
-                            statusAsliTask.add("وضعیت: " + getBody.getResponse().getMessage().get(i).getStatus());
+                            statusAsliTask.add("وضعیت: " + getBody.getResponse().getMessage().get(i).getState());
                         }
 
                         customAdapter.notifyDataSetChanged();

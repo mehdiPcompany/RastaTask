@@ -32,7 +32,7 @@ import com.pas.rastatask.retroallstate.State;
 import com.pas.rastatask.retroonetask.OneTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Objects;
 
 public class AddUserActivity extends AppCompatActivity {
@@ -55,7 +55,7 @@ public class AddUserActivity extends AppCompatActivity {
 
     ArrayList<String> list_state = new ArrayList<>();
     ArrayList<String> list_id_state = new ArrayList<>();
-    String id_state;
+    String id_state = "";
 
     ProgressDialog progressdialog;
 
@@ -109,8 +109,12 @@ public class AddUserActivity extends AppCompatActivity {
         });
 
         lbNext.setOnClickListener(v -> {
-            progressdialog.show();
-            set_comment();
+            if(edContent.getText().toString().isEmpty()){
+                Toast.makeText(AddUserActivity.this, "توضیحات رو بنویسید", Toast.LENGTH_SHORT).show();
+            }else{
+                progressdialog.show();
+                set_comment();
+            }
         });
 
     }
@@ -181,6 +185,9 @@ public class AddUserActivity extends AppCompatActivity {
                         for (int i = 0; i < getBody.getResponse().getMessage().size(); i++) {
                             list_state.add(getBody.getResponse().getMessage().get(i).getText());
                             list_id_state.add(getBody.getResponse().getMessage().get(i).getId());
+                            if(lbSelVaz.getText().equals(getBody.getResponse().getMessage().get(i).getText())){
+                                id_state = getBody.getResponse().getMessage().get(i).getId();
+                            }
                         }
                     }else {
                         Toast.makeText(AddUserActivity.this, "خطا، لطفا مجددا تلاش فرمائید.", Toast.LENGTH_SHORT).show();
@@ -219,6 +226,9 @@ public class AddUserActivity extends AppCompatActivity {
         final String[] charSequence = new String[list_state.size()];
         for (int i = 0; i < list_state.size(); i++) {
             charSequence[i] =  list_state.get(i);
+            if(lbSelVaz.getText().equals(list_state.get(i))){
+                position_status = i;
+            }
         }
 
         builder.setSingleChoiceItems(charSequence, position_status, (dialog, which) -> sel_sstatus = which);
@@ -259,21 +269,16 @@ public class AddUserActivity extends AppCompatActivity {
 
         APIInterface service = APIClient.getClient().create(APIInterface.class);
 
-//        HashMap<String,Object> mBody= new HashMap<>();
-//        HashMap<String,Object> mBody= new HashMap<>();
         JsonObject obj = new JsonObject();
         JsonObject payerReg = new JsonObject();
-        payerReg.addProperty("user",Library.readAHSharedPreferences(AddUserActivity.this, "IdUser"));
         payerReg.addProperty("password","Mnek!w@ZP(*s");
         payerReg.addProperty("state",id_state);
         payerReg.addProperty("idtask",Library.readAHSharedPreferences(this,"TagShow"));
         payerReg.addProperty("comment",edContent.getText().toString());
 
-//        HashMap<String,Object> mBody2= new HashMap<>();
-//        mBody2.put("rqp",mBody);
-        obj.add("payerReg",payerReg);
+        obj.add("rqp",payerReg);
 
-        Call<AddTask> call = service.setTask("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token") ,obj.toString());
+        Call<AddTask> call = service.setTask("Bearer "+Library.readAHSharedPreferences(AddUserActivity.this, "Token") ,obj);
 
         call.enqueue(new Callback<AddTask>() {
             @Override
